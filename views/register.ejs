@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title><%= title %></title>
+<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="format-detection" content="telephone=no">
+<link rel='stylesheet' href='/stylesheets/style.css'>
+</head>
+<body>
+<div class="wrapper">
+    <p class="main-title"><%= title %></p>
+    <% if (typeof configList !== 'undefined') { %>
+    <% if (configList.length) { %>
+    <form action="/register" method="post" class="board-form">
+        <% configList.forEach(function(configItem) { %>
+        <span class="label">デバイス名</span><input type="text" name="deviceId" value="<%= configItem.deviceId %>" class="input" required><br>
+        <br>
+        <span class="label">IoTHuB接続文字列</span><input type="text" name="iotHuBConnection" value="<%= configItem.iotHubConnection %>" class="input" required><br>
+        <br>
+        <span class="label">鮮鋭化フィルタ</span><input type="number" step="0.1" name="k" value="<%= configItem.k %>" class="input" required><br>
+        <br>
+        <span class="label">最小サイズ</span><input type="number" name="minsize" value="<%= configItem.minsize %>" class="input" required><br>
+        <br>
+        <span class="label">fps</span><input type="number" name="fps" value="<%= configItem.fps %>" class="input" required><br>
+        <br>
+        <span class="label">同一人物判定閾値</span><input type="number" value="<%= configItem.threshold %>" name="threshold" class="input" required><br>
+        <br>
+        <span class="label">Face API Key</span><input type="text" name="faceKey" value="<%= configItem.faceKey %>" class="input" required><br>
+        <br>
+        <span class="label">EmotionAPI Key</span><input type="text" name="emotionKey" value="<%= configItem.etmotionKey %>" class="input" required><br>
+        <br>
+        <span class="label">グループiD</span><input type="text" name="groupId" value="<%= configItem.groupId %>" class="input" required><br>
+        <br>
+        <span class="label">FaceListID</span><input type="text" name="faceListId" value="<%= configItem.faceListId %>" class="input" required><br>
+        <br>
+        <span class="label">ライブ用パス</span><input type="text" name="liveStreamingPath" value="<%= configItem.livePath %>" class="input" required><br>
+        <br>
+        <span class="label">バックアップパス</span><input type="text" name="backupPath" value="<%= configItem.backupPath %>"class="input" required><br>
+        <br>
+        <% }); %>
+        <button type="submit" class="submit">詳細登録</button>
+    </form>
+     <% } %>
+    <% } %>
+
+    <% if (typeof deviceIdExists !== 'undefined') { %>
+        <p class="error"><%= deviceIdExists %></p>
+    <% } %>
+    <a href="/" class="btn">トップへもどる</a>
+    <% if (typeof user !== 'undefined') { %> }
+      <span class="loing-user"><%= user.email %>さんとしてログインしています</span>
+    <% } %>
+</div>
+</body>
+</html>
