@@ -1,4 +1,5 @@
-// require('./bin/www');
+require('./bin/www');
+/*
 var http = require("http");
 var server = http.createServer(function(request, response) {
 response.writeHead(200, {"Content-Type": "text/html"});
@@ -29,4 +30,4 @@ db.serialize(function() {
 });
 db.close();
 });
-server.listen(process.env.PORT || 1337);
+server.listen(process.env.PORT || 1337); */

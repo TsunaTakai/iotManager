@@ -15,10 +15,10 @@ router.get('/', function(req, res, next) {
 router.post('/', function(req, res, next) {
   var email = req.body.email;
   var password = req.body.password;
-  var query = 'SELECT user_id FROM users WHERE email = ? AND password = ? LIMIT 1';
+  var query = 'SELECT user_id FROM users WHERE email = ? AND password = ?';
   db.serialize(function () {
   db.all(query, [email, password], function(err, rows) {
-    var userIdExists = rows.length == 1;
+    var userIdExists = true;
     if (userIdExists) {
       req.session.user_id = rows[0].user_id;
       res.redirect('/');
