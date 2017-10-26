@@ -55,6 +55,7 @@ router.post('/', function(req, res, next) {
 
   console.log(rdeviceId);
   var updateQuery = 'UPDATE config set iotHuBConnection = ?, k = ?, minsize = ?, fps = ?, threshold = ?, faceKey = ?, emotionKey = ?, groupId = ?, faceListId = ?, liveStreamingPath = ?, backupPath = ?, createdAt = ? WHERE deviceId = ?';
+  db = new sqlite3.Database('./rasiot.sqlite3');
   db.serialize(function () {
         //var stmt = db.prepare(updateQuery);
         //stmt.run(riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId);
