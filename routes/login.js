@@ -18,29 +18,29 @@ router.post('/', function(req, res, next) {
   var query = 'SELECT user_id FROM users WHERE email = ? AND password = ?';
   var data = [];
   db.serialize(function () {
-  db.each(query, [email, password], function(err, row) {
-    if (err || row == undefined){
+    db.each(query, [email, password], function(err, row) {
+      if (err || row == undefined){
         throw err;
-    }else{
-      console.log(row)
-      data.push(row);
-    }
-  }, function(err, count) {
-     if (err) {
+      }else{
+        console.log(row)
+        data.push(row);
+      }
+    }, function(err, count) {
+      if (err) {
         throw err;
-     }else{
-       if (count == 0) {
+      }else{
+        if (count == 0) {
             res.render('login', {
             title: 'ログイン',
             noUser: 'メールアドレスとパスワードが一致するユーザーはいません'
             });
-       }else{
-          req.session.user_id = data[0].user_id;
-          res.redirect('/');
-       }
-     }
+        }else{
+            req.session.user_id = data[0].user_id;
+            res.redirect('/');
+        }
+      }
+    });
   });
-});
 });
 
 module.exports = router;
