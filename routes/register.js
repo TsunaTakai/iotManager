@@ -12,11 +12,26 @@ router.get('/', function(req, res, next) {
 router.get('/:device_id', function(req, res, next) {
     var deviceId = req.params.device_id;
     var getDeviceQuery = 'SELECT * FROM config WHERE deviceId = ? LIMIT 1';
+    var data = [];
     db.serialize(function () {
-         db.all(getDeviceQuery, deviceId, function(err, config) {
-                 console.log(config[0].iotHuBConnection);
-                 res.render('register', { title: 'デバイス更新', configList: config});                 
-         });          
+         db.each(getDeviceQuery, deviceId, function(err, config) {
+             if (err || config == undefined){
+                 throw err;
+             }else{
+                 data.push(config);
+             }
+         }, function (err, count) {
+             if (err){
+                 throw err;
+             }else{
+                 if (count == 0){
+
+                 }else {
+                    console.log(data);
+                    res.render('register', { title: 'デバイス更新', configList: data});                 
+                 }
+             }
+         });
     });  
 });
 
@@ -36,36 +51,15 @@ router.post('/', function(req, res, next) {
   var rcreatedAt = moment().format('YYYY-MM-DD HH:mm:ss');
 
   console.log(rdeviceId);
-  var deviceIdExitQuery = 'SELECT * FROM config WHERE deviceId = ? LIMIT 1';
-  var registerQuery = 'INSERT INTO config (deviceId, iotHuBConnection, k, minsize, fps, threshold, faceKey, emotionKey, groupId, faceListId, liveStreamingPath, backupPath, createdAt) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
   var updateQuery = 'UPDATE config set iotHuBConnection = ?, k = ?, minsize = ?, fps = ?, threshold = ?, faceKey = ?, emotionKey = ?, groupId = ?, faceListId = ?, liveStreamingPath = ?, backupPath = ?, createdAt = ? WHERE deviceId = ?';
   db.serialize(function () {
-      db.all(deviceIdExitQuery, rdeviceId, function(err, deviceId) {
-        var deviceIdExists = deviceId.length == 1;
-        console.log(deviceIdExists);
-        if (deviceIdExists) {
-            /*
-            res.render('register', {
-                title:'新規デバイス登録',
-                deviceIdExists: '既に登録されているデバイスIdです'
-            });
-            */
             db.run(updateQuery, 
                 [riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId], 
                 function(err, rows) {
                     console.error(err);
                     res.redirect('/login');
             });
-        } else {
-            db.run(registerQuery, 
-                [rdeviceId, riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt], 
-                function(err, rows) {
-                    console.error(err);
-                    res.redirect('/login');
-            });
-        }
       });
-  });
 }); 
 
 module.exports = router;

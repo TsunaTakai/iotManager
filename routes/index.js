@@ -6,12 +6,27 @@ var db = require('../sqlite3Connection');
 /* GET home page. */
 router.get('/', function(req, res, next) {
       var query = 'SELECT deviceId, strftime(\'%Y-%m-%d %H:%M:%S\', createdat) AS created_at FROM config';
+      var data = [];
       db.serialize(function () {
-         db.all(query, function(err, rows) {
-             console.log(rows);
-             res.render('index', { title: 'デバイス登録', deviceList: rows });
+         db.each(query, function(err, rows) {
+             if (err || rows === undefined ) {
+                res.render('index', { title: 'デバイス登録err' });
+             }else{
+                 console.log(rows);
+                 data.push(rows);
+             }
+         }, function (err, count) {
+             if (err) {
+                 throw err;
+             }else{
+                 if (count===0){
+                    res.render('index', { title: 'デバイス登録0' });
+                 }else{
+                     res.render('index', { title: 'デバイス登録x', deviceList: data });
+                 }
+             }
+             });
          });          
-      });  
 });
 
 router.post('/', function(req, res, next) {
