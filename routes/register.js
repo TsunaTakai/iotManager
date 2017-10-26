@@ -34,6 +34,7 @@ router.get('/:device_id', function(req, res, next) {
                  }
              }
          });
+         db.close();
     });  
 });
 
