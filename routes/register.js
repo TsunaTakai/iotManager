@@ -55,15 +55,16 @@ router.post('/', function(req, res, next) {
   console.log(rdeviceId);
   var updateQuery = 'UPDATE config set iotHuBConnection = ?, k = ?, minsize = ?, fps = ?, threshold = ?, faceKey = ?, emotionKey = ?, groupId = ?, faceListId = ?, liveStreamingPath = ?, backupPath = ?, createdAt = ? WHERE deviceId = ?';
   db.serialize(function () {
-        var stmt = db.prepare(updateQuery);
-        stmt.run(riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId);
-        stmt.finalize();
-        res.redirect('/login');
-            //db.run(updateQuery, 
-            //    [riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId], 
-            //    function(err, rows) {
-            //        console.error(err);
-            //});
+        //var stmt = db.prepare(updateQuery);
+        //stmt.run(riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId);
+        //stmt.finalize();
+            db.run(updateQuery, 
+                [riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId], 
+                function(err, rows) {
+                    console.error(err);
+            res.redirect('/login');
+        });
+        db.close();
       });
 }); 
 
