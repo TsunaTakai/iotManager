@@ -1,7 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var moment = require('moment');
-var db = require('../sqlite3Connection');
+//var db = require('../sqlite3Connection');
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('./rasiot.sqlite3');
 
 router.get('/', function(req, res, next) {
   res.render('register', {
@@ -53,12 +55,15 @@ router.post('/', function(req, res, next) {
   console.log(rdeviceId);
   var updateQuery = 'UPDATE config set iotHuBConnection = ?, k = ?, minsize = ?, fps = ?, threshold = ?, faceKey = ?, emotionKey = ?, groupId = ?, faceListId = ?, liveStreamingPath = ?, backupPath = ?, createdAt = ? WHERE deviceId = ?';
   db.serialize(function () {
-            db.run(updateQuery, 
-                [riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId], 
-                function(err, rows) {
-                    console.error(err);
-                    res.redirect('/login');
-            });
+        var stmt = db.prepare(updateQuery);
+        stmt.run(riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId);
+        stmt.finalize();
+        res.redirect('/login');
+            //db.run(updateQuery, 
+            //    [riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId], 
+            //    function(err, rows) {
+            //        console.error(err);
+            //});
       });
 }); 
 
