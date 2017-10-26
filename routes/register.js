@@ -60,12 +60,14 @@ router.post('/', function(req, res, next) {
         //stmt.finalize();
             db.run(updateQuery, 
                 [riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId], 
-                function(err, rows) {
-                    console.error(err);
-            res.redirect('/login');
-        });
-        db.close();
-      });
+                function(err) {
+                    if (err) {
+                        res.render('register',{title:'更新失敗'});
+                    }else{
+                        res.redirect('/login');
+                    }
+                });
+    });
 }); 
 
 module.exports = router;
