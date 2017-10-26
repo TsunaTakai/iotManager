@@ -62,7 +62,7 @@ router.post('/', function(req, res, next) {
                 [riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId], 
                 function(err) {
                     if (err) {
-                        res.render('register',{title:'更新失敗'});
+                        res.render('register',{title:err});
                     }else{
                         res.redirect('/login');
                     }
