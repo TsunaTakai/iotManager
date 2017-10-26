@@ -9,7 +9,7 @@ router.get('/:deviceId', function(req, res, next) {
     var data = [];
     db.serialize(function () {
          db.each(getDeviceQuery, rdeviceId, function(err, row) {
-             if (err || row == undefined){
+             if (err){
                  throw err;
              }else{
                  data.push(row);

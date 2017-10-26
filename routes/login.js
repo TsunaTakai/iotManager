@@ -19,7 +19,7 @@ router.post('/', function(req, res, next) {
   var data = [];
   db.serialize(function () {
     db.each(query, [email, password], function(err, row) {
-      if (err || row == undefined){
+      if (err){
         throw err;
       }else{
         console.log(row)
