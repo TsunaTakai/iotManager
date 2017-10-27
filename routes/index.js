@@ -1,13 +1,11 @@
 var express = require('express');
 var router = express.Router();
 var moment = require('moment');
-//var db = require('../sqlite3Connection');
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./rasiot.sqlite3');
+var db = require('../sqlite3Connection');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-      var query = 'SELECT deviceId, strftime(\'%Y-%m-%d %H:%M:%S\', createdat) AS created_at FROM config';
+      var query = 'SELECT deviceId, strftime(\'%Y-%m-%d %H:%M:%S\', createdat) AS created_at FROM config Order by deviceId';
       var data = [];
       db.serialize(function () {
          db.each(query, function(err, rows) {
@@ -37,8 +35,11 @@ router.post('/', function(req, res, next) {
     var query = 'INSERT INTO config (deviceId, createdAt) VALUES (?, ?)';
     db.serialize(function () {
       db.run(query, [deviceId, createdAt], function(err, rows) {
-          console.log(err);
-          res.redirect('/');
+         if (err) {
+             res.render('/',{title:err});
+         }else{
+             res.redirect('/');
+         }
       });
     });
 });

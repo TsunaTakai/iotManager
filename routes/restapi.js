@@ -1,9 +1,7 @@
 var express = require('express');
 var router = express.Router();
 var moment = require('moment'); //追加
-//var db = require('../sqlite3Connection');
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./rasiot.sqlite3');
+var db = require('../sqlite3Connection');
 
 router.get('/:deviceId', function(req, res, next) {
     var rdeviceId = req.params.deviceId;
@@ -31,6 +29,7 @@ router.get('/:deviceId', function(req, res, next) {
                         "deviceId":data[0].deviceId,
                         "iotHuBConnection":data[0].iotHuBConnection,
                         "k":data[0].k,
+                        "minsize":data[0].minsize,
                         "fps":data[0].fps, 
                         "threshold":data[0].threshold, 
                         "faceKey":data[0].faceKey, 

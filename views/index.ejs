@@ -9,7 +9,7 @@
   </head>
   <body>
       <div class="wrapper">
-          <% if (typeof user !== 'undefined') { %>      
+          <% if (typeof users !== 'undefined') { %>      
           <form action="/" method="post" class="board-form">
           デバイスID：<input type="text" name="deviceId" class="input" required<br>
               <br>
@@ -26,7 +26,7 @@
                  </li>
               <% }); %>
           </ul>
-             <span class="login-user"><%= user.email %>さんとしてログインしています</span>
+             <span class="login-user"><%= users.email %>さんとしてログインしています</span>
           <% } %>
       </div>
   </body>

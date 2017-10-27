@@ -48,8 +48,8 @@
         <p class="error"><%= deviceIdExists %></p>
     <% } %>
     <a href="/" class="btn">トップへもどる</a>
-    <% if (typeof user !== 'undefined') { %> }
-      <span class="loing-user"><%= user.email %>さんとしてログインしています</span>
+    <% if (typeof users !== 'undefined') { %> }
+      <span class="loing-user"><%= users.email %>さんとしてログインしています</span>
     <% } %>
 </div>
 </body>
