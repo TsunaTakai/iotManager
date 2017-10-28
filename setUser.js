@@ -1,4 +1,6 @@
-var db = require('./sqlite3Connection');
+//var db = require('./sqlite3Connection');
+var sqlite3 = require('sqlite3').verbose();
+var db = new sqlite3.Database('../rasiot.sqlite3');
 
 module.exports = function(req, res, next) {
   var userId = req.session.user_id;
@@ -15,7 +17,7 @@ module.exports = function(req, res, next) {
           if (count == 0) {
             res.locals.users = false;
           }else{
-            res.locals.users = data[0]
+            res.locals.users = data[0];
           }
         }
       });
