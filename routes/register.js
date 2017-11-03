@@ -3,7 +3,7 @@ var router = express.Router();
 var moment = require('moment');
 //var db = require('../sqlite3Connection');
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('../rasiot.sqlite3');
+var db = new sqlite3.Database('./rasiot.sqlite3');
 
 router.get('/', function(req, res, next) {
   res.render('register', {
@@ -39,6 +39,8 @@ router.get('/:device_id', function(req, res, next) {
 
 router.post('/', function(req, res, next) {
   var rdeviceId = req.body.deviceId;
+  var rlocationX = req.body.locationX;
+  var rlocationY = req.body.locationY;
   var riotHuBConnection = req.body.iotHuBConnection;
   var rk = req.body.k;
   var rminsize = req.body.minsize;
@@ -53,13 +55,13 @@ router.post('/', function(req, res, next) {
   var rcreatedAt = moment().format('YYYY-MM-DD HH:mm:ss');
 
   console.log(rdeviceId);
-  var updateQuery = 'UPDATE config set iotHuBConnection = ?, k = ?, minsize = ?, fps = ?, threshold = ?, faceKey = ?, emotionKey = ?, groupId = ?, faceListId = ?, liveStreamingPath = ?, backupPath = ?, createdAt = ? WHERE deviceId = ?';
+  var updateQuery = 'UPDATE config set locationX = ?, locationY = ?, iotHuBConnection = ?, k = ?, minsize = ?, fps = ?, threshold = ?, faceKey = ?, emotionKey = ?, groupId = ?, faceListId = ?, liveStreamingPath = ?, backupPath = ?, createdAt = ? WHERE deviceId = ?';
   db.serialize(function () {
         //var stmt = db.prepare(updateQuery);
         //stmt.run(riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId);
         //stmt.finalize();
             db.run(updateQuery, 
-                [riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId], 
+                [rlocationX, rlocationY, riotHuBConnection, rk, rminsize, rfps, rthreshold, rfaceKey, remotionKey, rgroupId, rfaceListId, rliveStreamingPath, rbackupPath, rcreatedAt, rdeviceId], 
                 function(err) {
                     if (err) {
                         res.render('register',{title:err});

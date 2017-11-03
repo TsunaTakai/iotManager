@@ -3,7 +3,7 @@ var router = express.Router();
 var moment = require('moment');
 //var db = require('../sqlite3Connection');
 var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('../rasiot.sqlite3');
+var db = new sqlite3.Database('./rasiot.sqlite3');
 
 /* GET home page. */
 router.get('/', function(req, res, next) {

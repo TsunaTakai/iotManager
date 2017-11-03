@@ -16,6 +16,8 @@
         <% configList.forEach(function(configItem) { %>
         <span class="label">デバイス名</span><input type="text" name="deviceId" value="<%= configItem.deviceId %>" class="input" required><br>
         <br>
+        <span class="label">座標X</span><input type="text" name="locationX" value="<%= configItem.locationX %>" class="input" required><br>
+        <span class="label">座標Y</span><input type="text" name="locationY" value="<%= configItem.locationY %>" class="input" required><br>       
         <span class="label">IoTHuB接続文字列</span><input type="text" name="iotHuBConnection" value="<%= configItem.iotHuBConnection %>" class="input" required><br>
         <br>
         <span class="label">鮮鋭化フィルタ</span><input type="number" step="0.1" name="k" value="<%= configItem.k %>" class="input" required><br>
