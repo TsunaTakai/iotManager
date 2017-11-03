@@ -1,9 +1,9 @@
 var express = require('express');
 var router = express.Router();
 var moment = require('moment');
-//var db = require('../sqlite3Connection');
-var sqlite3 = require('sqlite3').verbose();
-var db = new sqlite3.Database('./rasiot.sqlite3');
+var db = require('../sqlite3Connection');
+//var sqlite3 = require('sqlite3').verbose();
+//var db = new sqlite3.Database('./rasiot.sqlite3');
 
 router.get('/', function(req, res, next) {
   res.render('register', {
